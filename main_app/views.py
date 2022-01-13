@@ -69,7 +69,7 @@ def model_form_upload(request):
             # with urllib.request.urlopen('http://http://127.0.0.1:8000/main_app/') as f:
             #     html = f.read().decode('utf-8')
 
-            content = open(os.path.dirname(os.path.abspath(__file__))+"/../latextranslator-master/examples/" + request.FILES['document'].name + " ru", encoding="utf8").read()
+            content = open(os.path.dirname(os.path.abspath(__file__))+"/../latextranslator-master/examples/" + filename + "_ru" + file_extension, encoding="utf8").read()
 
             response = HttpResponse(content, 'rb')
             response['Content-Type'] = 'text/plain'
