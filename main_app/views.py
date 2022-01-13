@@ -10,6 +10,10 @@ sys.path.append('textranslator/latextranslator-master')
 from shutil import copyfile
 import requests
 import urllib.request
+from .models import DocumentTex
+from django.contrib.auth.decorators import login_required
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
 
 # Create your views here.
 # def index(request):
@@ -33,6 +37,18 @@ import urllib.request
 #         'main_app/index.html',
 #         context={},
 #     )
+
+
+class DocumentCreateView(CreateView):
+    model = DocumentTex
+    fields = ['upload', ]
+    success_url = reverse_lazy('home')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        documents = DocumentTex.objects.all()
+        context['documents'] = documents
+        return context
 
 
 def model_form_upload(request):
