@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
 from pathlib import Path
-
 import django_heroku
 
 
@@ -29,7 +28,7 @@ SECRET_KEY = 'django-insecure-&r05&^(&vi$v_4cqkhc9iyd-k^ur(_u!7#d)7h^qhr76rd4bdj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'textranslator.herokuapp.com']
+# ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'textranslator.herokuapp.com']
 
 
 # Application definition
