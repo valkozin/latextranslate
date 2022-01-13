@@ -54,12 +54,12 @@ def model_form_upload(request):
                 check_error = 2
 
             copyfile(os.path.dirname(os.path.abspath(__file__)) + "/../documents/"+request.FILES['document'].name,
-                     os.path.dirname(os.path.abspath(__file__)) + "\..\..\latextranslator-master\examples\\" +
+                     os.path.dirname(os.path.abspath(__file__)) + "/../latextranslator-master/examples/" +
                      request.FILES['document'].name)
 
             response = os.system("python " +
-                os.path.dirname(os.path.abspath(__file__)) + "\..\..\\latextranslator-master\main.py " +
-                os.path.dirname(os.path.abspath(__file__)) + "\..\..\latextranslator-master\examples\\" + request.FILES['document'].name + " ru")
+                os.path.dirname(os.path.abspath(__file__)) + "/../latextranslator-master/main.py " +
+                os.path.dirname(os.path.abspath(__file__)) + "/../latextranslator-master/examples/" + request.FILES['document'].name + " ru")
 
             # url = 'https://www.facebook.com/favicon.ico'
             # r = requests.get(url, allow_redirects=True)
@@ -69,7 +69,7 @@ def model_form_upload(request):
             # with urllib.request.urlopen('http://http://127.0.0.1:8000/main_app/') as f:
             #     html = f.read().decode('utf-8')
 
-            content = open(os.path.dirname(os.path.abspath(__file__))+"\..\..\latextranslator-master\examples\\test_Dasha_ru.tex", encoding="utf8").read()
+            content = open(os.path.dirname(os.path.abspath(__file__))+"/../latextranslator-master/examples/test_Dasha_ru.tex", encoding="utf8").read()
 
             response = HttpResponse(content, 'rb')
             response['Content-Type'] = 'text/plain'
