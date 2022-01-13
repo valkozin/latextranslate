@@ -1,0 +1,112 @@
+\documentclass[
+aps,
+prl,
+groupedaddress,
+superscriptaddress,
+floatfix,
+%showpacs,
+%showkeys,
+%draft,
+%preprint,
+%reprint,
+%twocolumn,
+notitlepage
+]{revtex4-1}
+
+\usepackage{graphicx}% Include figure files
+%\usepackage[dvips]{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{braket}
+%\usepackage{pscyr}
+%\usepackage[utf8]{inputenc} % needed for Cyrillic fonts
+%\usepackage[T2A]{fontenc} % needed for Cyrillic fonts
+\usepackage{hyperref} % hypertext capabilities
+\usepackage{subfigure}
+%\usepackage{dcolumn} % Align table columns on decimal point
+\usepackage{bm} % bold math
+\usepackage{mathtools} % dcases (uncompressed fractions)
+
+%\begin{document} % this is not a begin of the document and treated as a comment
+
+%  \begin{document} % neither this
+
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{comment}
+
+% Text is not getting translated until now. 
+% Finally, the proper \begin{document} goes.
+\begin{document}
+
+\author{V. K. Kozin$^{1,2}$} % nested braces are treated properly
+\author{D. R. Gulevich$^{1,2,{3,4,5}}$ }
+
+% Several
+% comment
+% lines
+% are replaced by a single token
+
+% even if separated by one
+
+
+% or multiple line breakes
+
+\% this is not a comment by the way, and is treated as usual text.
+
+Complex surnames Schr\"odinger and Schr\"{o}dinger containing German characters \"{o} etc. are not translated.
+
+%-----------------------------------------------------------------------------------------------
+\section*{Introduction}
+%-----------------------------------------------------------------------------------------------
+
+\begin{comment}
+Such comments are not recognized yet.
+% Only this is a comment.
+\end{comment}
+
+%-----------------------------------------------------------------------------------------------
+\section*{Methods}
+%-----------------------------------------------------------------------------------------------
+
+It is therefore not surprising that with the fast rise of topological insulators in the context of electronic systems~\cite{Kane-Mele,Bernevig,Konig}, topological ideas were 
+also widely explored in photonic systems. Among the pioneering works are the  
+study of chiral edge states in photonic crystals~\cite{Raghu-2008}.
+
+\begin{equation}
+2+2 =4 \quad \text{text inside equations is to be translated}
+4-2 = 2
+\end{equation}
+
+In this respect, systems based on exciton-polaritons~\cite{Carusotto2013}, quasi-particles originating from the strong coupling of the quantum well-excitons and cavity photons in microcavities, are at advantage. 
+
+\begin{figure}[t!]
+	\begin{center}
+\includegraphics[width=3.4in]{fig1.png}
+		\caption{\label{fig:tffo} 
+Let's check that translation of figure captions is working... }		
+	\end{center}		
+\end{figure}
+
+\command sdfsd
+
+\command1{abs{ff}sfdssdf}
+
+\command2{abc} {defg}
+
+\command2{ab{as}c}  {de{sdf}fg}
+
+eq $1$
+
+\begin{figure}[t!]
+	\begin{center}
+\includegraphics[width=3.4in]{fig1.png}
+		\caption{\label{fig:tffo} 
+Wow, translation of figure captions is working! }		
+	\end{center}		
+\end{figure}
+
+
+\end{document}
+
+Let's check that nothing gets translated beyond the end of the document.
+
