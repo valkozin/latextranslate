@@ -46,7 +46,7 @@ def model_form_upload(request):
             allowed = []
             allowed.append('tex')
 
-            filename, file_extension = os.path.splitext('documents/'+request.FILES['document'].name)
+            filename, file_extension = os.path.splitext(request.FILES['document'].name)
             if file_extension not in allowed:
                 check_error = 1
 
