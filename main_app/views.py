@@ -50,7 +50,7 @@ def model_form_upload(request):
             if file_extension not in allowed:
                 check_error = 1
 
-            if os.stat(os.path.dirname(os.path.abspath(__file__)) + "\..\documents\\"+request.FILES['document'].name).st_size > 1048576:
+            if os.stat(os.path.dirname(os.path.abspath(__file__)) + "/../documents/"+request.FILES['document'].name).st_size > 1048576:
                 check_error = 2
 
             copyfile(os.path.dirname(os.path.abspath(__file__)) + "\..\documents\\"+request.FILES['document'].name,
