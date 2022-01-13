@@ -53,7 +53,7 @@ def model_form_upload(request):
             if os.stat('documents/'+request.FILES['document'].name).st_size > 1048576:
                 check_error = 2
 
-            copyfile(os.path.dirname(os.path.abspath(__file__)) + "\..\documents\\"+request.FILES['document'].name,
+            copyfile(os.path.dirname(os.path.abspath(__file__)) + "/../documents/"+request.FILES['document'].name,
                      os.path.dirname(os.path.abspath(__file__)) + "\..\..\latextranslator-master\examples\\" +
                      request.FILES['document'].name)
 
