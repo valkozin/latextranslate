@@ -13,41 +13,65 @@
 
 <!--{% endblock %}-->
 
+<!--old-->
 {% block content1 %}
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
 <!--    {{ form.as_p }}-->
-    {{ form.document }}
+    {{ form.upload }}
     <button type="submit">Upload</button>
   </form>
 
 {% endblock %}
 
-<form method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Submit</button>
-</form>
+<!--<form method="post" enctype="multipart/form-data">-->
+<!--  {% csrf_token %}-->
+<!--  {{ form.as_p }}-->
+<!--  <button type="submit">Submit</button>-->
+<!--</form>-->
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Uploaded at</th>
-      <th>Size</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for document in documents %}
-      <tr>
-        <td><a href="{{ document.upload.url }}" target="_blank">{{ document.upload.name }}</a></td>
-        <td>{{ document.uploaded_at }}</td>
-        <td>{{ document.upload.size|filesizeformat }}</td>
-      </tr>
-    {% empty %}
-      <tr>
-        <td colspan="3">No data.</td>
-      </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<!--<table>-->
+<!--  <thead>-->
+<!--    <tr>-->
+<!--      <th>Name</th>-->
+<!--      <th>Uploaded at</th>-->
+<!--      <th>Size</th>-->
+<!--    </tr>-->
+<!--  </thead>-->
+<!--  <tbody>-->
+<!--    {% for document in documents %}-->
+<!--      <tr>-->
+<!--        <td><a href="{{ document.upload.url }}" target="_blank">{{ document.upload.name }}</a></td>-->
+<!--        <td>{{ document.uploaded_at }}</td>-->
+<!--        <td>{{ document.upload.size|filesizeformat }}</td>-->
+<!--      </tr>-->
+<!--    {% empty %}-->
+<!--      <tr>-->
+<!--        <td colspan="3">No data.</td>-->
+<!--      </tr>-->
+<!--    {% endfor %}-->
+<!--  </tbody>-->
+<!--</table>-->
+
+<!--<input type="file" id="file_input"/>-->
+<!--<p id="status">Please select a file</p>-->
+
+<!--<form method="POST" action="/submit_form/">-->
+<!--  <input type="hidden" id="avatar-url" name="avatar-url" value="/static/default.png">-->
+<!--  <input type="text" name="username" placeholder="Username">-->
+<!--  <input type="text" name="full-name" placeholder="Full name">-->
+<!--  <input type="submit" value="Update profile">-->
+<!--</form>-->
+
+<!--<script type="text/javascript">-->
+<!--(function() {-->
+<!--  document.getElementById("file_input").onchange = function(){-->
+<!--    var files = document.getElementById("file_input").files;-->
+<!--    var file = files[0];-->
+<!--    if(!file){-->
+<!--      return alert("No file selected.");-->
+<!--    }-->
+<!--    getSignedRequest(file);-->
+<!--  };-->
+<!--})();-->
+<!--</script>-->

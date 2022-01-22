@@ -13,6 +13,8 @@ import os
 from pathlib import Path
 import django_heroku
 
+import boto
+from boto.s3.connection import OrdinaryCallingFormat, Location
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -81,10 +83,18 @@ WSGI_APPLICATION = 'textranslator.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'textranslator',
+            'USER': 'root',
+            'PASSWORD': '',
+            'HOST': '127.0.0.1',
+            'PORT': '3306',
+        },
 }
 
 
@@ -136,12 +146,28 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 django_heroku.settings(locals())
 
-AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = os.environ.get('S3_BUCKET_NAME')
+AWS_ACCESS_KEY_ID = 'AKIAYKYKQ4GPGVPUTK6W '
+# os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = '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'
+# os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = 'textranslate'
+# os.environ.get('S3_BUCKET_NAME')
 
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# AWS_S3_REGION_NAME = 'eu-west-2'
 
-STATIC_URL = 'http://' + AWS_STORAGE_BUCKET_NAME + '.s3.amazonaws.com/'
+AWS_QUERYSTRING_AUTH = False
+
+# STATIC_URL = 'http://' + AWS_STORAGE_BUCKET_NAME + '.s3.amazonaws.com/'
+STATIC_URL = 'https://' + AWS_STORAGE_BUCKET_NAME + '.s3.eu-west-2.amazonaws.com/'
+# https://textranslate.s3.eu-west-2.amazonaws.com/documents/example.tex
+
 ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
+
+# AWS_S3_HOST = 's3.eu-west-2.amazonaws.com'
+AWS_S3_ENDPOINT_URL = 'https://textranslate.s3.eu-west-2.amazonaws.com/'
+# AWS_S3_CALLING_FORMAT = 'boto.s3.connection.OrdinaryCallingFormat'
+# S3_USE_SIGV4 = True
+# AWS_S3_SIGNATURE_VERSION = 's3v4'
+
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'

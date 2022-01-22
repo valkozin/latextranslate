@@ -10,5 +10,6 @@ class Document(models.Model):
 
 
 class DocumentTex(models.Model):
+    name = models.CharField(max_length=255, blank=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
-    upload = models.FileField()
+    upload = models.FileField(upload_to='documents/')

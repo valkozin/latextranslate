@@ -1,5 +1,5 @@
 from django import forms
-from .models import Document
+from .models import DocumentTex
 
 # class UploadFileForm(forms.Form):
 #     title = forms.CharField(max_length=50)
@@ -8,5 +8,5 @@ from .models import Document
 
 class DocumentForm(forms.ModelForm):
     class Meta:
-        model = Document
-        fields = ('description', 'document',)
+        model = DocumentTex
+        fields = ('name', 'upload',)

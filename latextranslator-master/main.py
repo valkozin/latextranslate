@@ -4,11 +4,19 @@
 # Copyright (c) D. R. Gulevich & V. K. Kozin 2021
 #------------------------------------------------
 import argparse
+import os
+
 import regex
 import sys
 import pickle
+
+from django.http import HttpResponse
+
 import basic  # Interface to basic Google translation API
 import latex  # LaTeX tokenizer
+
+# from django.core.files.base import ContentFile
+# from django.core.files.storage import default_storage
 
 ### Parse command line arguments: LaTeX source and target language
 parser = argparse.ArgumentParser()
@@ -26,6 +34,13 @@ print('Target language:',target_language)
 with open(args.filename, 'r',  encoding='utf-8') as source_file:
     source = source_file.read()
 
+# print('test' + args.filename)
+# # source = default_storage.open('/documents/example.tex').read()
+# # content = default_storage.open('documents/' + '/documents/example.tex', 'r')
+# content = default_storage.url('/documents/' + '/example.tex')
+# response = HttpResponse(content, 'rb')
+# print(response)
+
 ### Tokenize LaTeX source
 tokenized_source, metadata = latex.tokenize( source )
 
@@ -35,7 +50,7 @@ tokenized_source, metadata = latex.tokenize( source )
 raw_translation = basic.translate( tokenized_source, target_language )
 
 ### Translate metadata: figure and tables captions and formula text in the format \caption{....} \text{...}
-def meta_translate(metadata):    
+def meta_translate(metadata):
     recaption = regex.compile(r'(?<=\\caption\s*\{)((?:[^{}]++|\{(?1)\})*+)(?=\})|(?<=\\text\s*\{)((?:[^{}]++|\{(?2)\})*+)(?=\})')
     metadata_latex_tr = []
 
@@ -51,7 +66,7 @@ def meta_translate(metadata):
             ### Replace LaTeX commands and formulas by tokens
             recommand = regex.compile(r'\s*\\title|\s*\\chapter\**|\s*\\section\**|\s*\\subsection\**|\s*\\subsubsection\**'
                     r'|\s*~*\\footnote[0-9]*|\s*(\$+)(?:(?!\1)[\s\S])*\1|\s*~*\\\%\s*'
-                    r'|(\s*~*\\\w++\s*(\{(?:[^{}]++|(?3))*+\})?\s*(\{(?:[^{}]++|(?4))*+\})?)|\w*\\"\{\w\}\w*|\w*\\"\w++') 
+                    r'|(\s*~*\\\w++\s*(\{(?:[^{}]++|(?3))*+\})?\s*(\{(?:[^{}]++|(?4))*+\})?)|\w*\\"\{\w\}\w*|\w*\\"\w++')
                     # comment: \3 and \4 because \1 is already used in front
             for m1 in recommand.finditer(caption_text):
                 fmetadata["notranslate"].append(m1.group())
@@ -85,5 +100,8 @@ translation, JSONmessages = latex.detokenize( raw_translation, metadata )
 output_filename = filebase + '_' + target_language + '.tex'
 with open(output_filename, 'w', encoding='utf-8') as translation_file:
 	translation_file.write(translation)
+
+# default_storage.save(filebase + '_' + target_language + '.tex', ContentFile(translation))
+
 print('Output file:',output_filename)
 print(JSONmessages)
