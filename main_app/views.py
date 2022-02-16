@@ -71,93 +71,152 @@ class DocumentCreateView(CreateView):
 
 def model_form_upload(request):
     if request.method == 'POST':
-        form = DocumentForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
+        if 'submit1' in request.POST:
+            form = DocumentForm(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
 
-            check_error = 0
+                check_error = 0
 
-            allowed = []
-            allowed.append('tex')
+                allowed = []
+                allowed.append('tex')
 
-            # filename, file_extension = os.path.splitext(request.FILES['document'].name)
-            filename, file_extension = os.path.splitext(request.FILES['upload'].name)
-            if file_extension not in allowed:
-                check_error = 1
+                # filename, file_extension = os.path.splitext(request.FILES['document'].name)
+                filename, file_extension = os.path.splitext(request.FILES['upload'].name)
+                if file_extension not in allowed:
+                    check_error = 1
 
-            # if os.stat('documents/'+request.FILES['upload'].name).st_size > 1048576:
-            #     check_error = 2
+                # if os.stat('documents/'+request.FILES['upload'].name).st_size > 1048576:
+                #     check_error = 2
 
-            # copyfile(os.path.dirname(os.path.abspath(__file__)) + "/../documents/"+request.FILES['upload'].name,
-            #          os.path.dirname(os.path.abspath(__file__)) + "/../latextranslator-master/examples/" +
-            #          request.FILES['upload'].name)
+                # copyfile(os.path.dirname(os.path.abspath(__file__)) + "/../documents/"+request.FILES['upload'].name,
+                #          os.path.dirname(os.path.abspath(__file__)) + "/../latextranslator-master/examples/" +
+                #          request.FILES['upload'].name)
 
-            # response = os.system("python " +
-            #     os.path.dirname(os.path.abspath(__file__)) + "/../latextranslator-master/main.py " +
-            #     os.path.dirname(os.path.abspath(__file__)) + "/../latextranslator-master/examples/" + request.FILES['upload'].name + " ru")
+                # response = os.system("python " +
+                #     os.path.dirname(os.path.abspath(__file__)) + "/../latextranslator-master/main.py " +
+                #     os.path.dirname(os.path.abspath(__file__)) + "/../latextranslator-master/examples/" + request.FILES['upload'].name + " ru")
 
-            # response = HttpResponse("python " +
-            #                      os.path.dirname(os.path.abspath(__file__)) + "/../latextranslator-master/main.py " +
-            #                      'https://textranslate.s3.eu-west-2.amazonaws.com/' + 'documents/' + request.FILES['upload'].name + " ru")
-            # return response
-            # response = os.system("python " +
-            #                      os.path.dirname(os.path.abspath(__file__)) + "/../latextranslator-master/main.py " +
-            #                      default_storage.url(request.FILES['upload'].name) + " ru")
+                # response = HttpResponse("python " +
+                #                      os.path.dirname(os.path.abspath(__file__)) + "/../latextranslator-master/main.py " +
+                #                      'https://textranslate.s3.eu-west-2.amazonaws.com/' + 'documents/' + request.FILES['upload'].name + " ru")
+                # return response
+                # response = os.system("python " +
+                #                      os.path.dirname(os.path.abspath(__file__)) + "/../latextranslator-master/main.py " +
+                #                      default_storage.url(request.FILES['upload'].name) + " ru")
 
+                # response = os.system("python " +
+                #                      os.path.dirname(os.path.abspath(__file__)) + "/../latextranslator-master/main.py " +
+                #                      'https://textranslate.s3.eu-west-2.amazonaws.com/' + 'documents/' + request.FILES['upload'].name + " ru")
+                # return response
 
-            # response = os.system("python " +
-            #                      os.path.dirname(os.path.abspath(__file__)) + "/../latextranslator-master/main.py " +
-            #                      'https://textranslate.s3.eu-west-2.amazonaws.com/' + 'documents/' + request.FILES['upload'].name + " ru")
-            # return response
+                # translate(default_storage.open('documents/' + request.FILES['upload'].name).read(), 'ru')
+                translate(default_storage.url('documents/' + request.FILES['upload'].name),
+                          request.FILES['upload'].name, 'ru')
 
-            # translate(default_storage.open('documents/' + request.FILES['upload'].name).read(), 'ru')
-            translate(default_storage.url('documents/' + request.FILES['upload'].name), request.FILES['upload'].name, 'ru')
+                # url = 'https://www.facebook.com/favicon.ico'
+                # r = requests.get(url, allow_redirects=True)
+                #
+                # open('facebook.ico', 'wb').write(r.content)
 
-            # url = 'https://www.facebook.com/favicon.ico'
-            # r = requests.get(url, allow_redirects=True)
-            #
-            # open('facebook.ico', 'wb').write(r.content)
+                # with urllib.request.urlopen('http://http://127.0.0.1:8000/main_app/') as f:
+                #     html = f.read().decode('utf-8')
 
-            # with urllib.request.urlopen('http://http://127.0.0.1:8000/main_app/') as f:
-            #     html = f.read().decode('utf-8')
+                # content = open(os.path.dirname(os.path.abspath(__file__))+"/../latextranslator-master/examples/" + filename + "_ru" + file_extension, encoding="utf8").read()
+                # content = open(default_storage.url(filename + file_extension),
+                #                encoding="utf8").read()
 
-            # content = open(os.path.dirname(os.path.abspath(__file__))+"/../latextranslator-master/examples/" + filename + "_ru" + file_extension, encoding="utf8").read()
-            # content = open(default_storage.url(filename + file_extension),
-            #                encoding="utf8").read()
+                # return HttpResponse(str(filename))
+                # return HttpResponse(str(default_storage.url('/documents/' + filename + file_extension)))
 
-            # return HttpResponse(str(filename))
-            # return HttpResponse(str(default_storage.url('/documents/' + filename + file_extension)))
+                # content = default_storage.open('documents/' + filename + file_extension, 'r')
+                #
+                # response = HttpResponse(content, 'rb')
+                # response['Content-Type'] = 'text/plain'
+                # response['Content-Disposition'] = 'attachment;'
+                # return response
 
+                content = default_storage.open('documents/' + filename + '_ru' + file_extension, 'r')
 
-            # content = default_storage.open('documents/' + filename + file_extension, 'r')
-            #
-            # response = HttpResponse(content, 'rb')
-            # response['Content-Type'] = 'text/plain'
-            # response['Content-Disposition'] = 'attachment;'
-            # return response
+                response = HttpResponse(content, 'rb')
+                response['Content-Type'] = 'text/plain'
+                response['Content-Disposition'] = 'attachment; filename="'+filename + '_ru' + file_extension+'"'
+                return response
 
-            content = default_storage.open('documents/' + filename + '_ru' + file_extension, 'r')
+                # return HttpResponse(content, content_type='text/plain')
 
-            response = HttpResponse(content, 'rb')
-            response['Content-Type'] = 'text/plain'
-            response['Content-Disposition'] = 'attachment;'
-            return response
+                # print(r"C:\Users\DariaKhudiakova\PycharmProjects\textranslator\latextranslator-master\main.py C:\Users\DariaKhudiakova\PycharmProjects\textranslator\latextranslator-master\examples\test_Dasha.tex ru")
+                # response = os.system(
+                #     r"python C:\Users\DariaKhudiakova\PycharmProjects\textranslator\latextranslator-master\main.py C:\Users\DariaKhudiakova\PycharmProjects\textranslator\latextranslator-master\examples\test_Dasha.tex ru")
 
+                # print(response)
+                # response = json.dumps(value)
 
-            # return HttpResponse(content, content_type='text/plain')
+                # return redirect('home')
+        elif 'submit2' in request.POST:
+            if request.POST.get('Textarea1'):
+                textarea1 = request.POST.get('Textarea1')
+                # form.save()
 
-            # print(r"C:\Users\DariaKhudiakova\PycharmProjects\textranslator\latextranslator-master\main.py C:\Users\DariaKhudiakova\PycharmProjects\textranslator\latextranslator-master\examples\test_Dasha.tex ru")
-            # response = os.system(
-            #     r"python C:\Users\DariaKhudiakova\PycharmProjects\textranslator\latextranslator-master\main.py C:\Users\DariaKhudiakova\PycharmProjects\textranslator\latextranslator-master\examples\test_Dasha.tex ru")
+                check_error = 0
 
-            # print(response)
-            # response = json.dumps(value)
+                # allowed = []
+                # allowed.append('tex')
 
-            # return redirect('home')
+                # filename, file_extension = os.path.splitext(request.FILES['document'].name)
+                # filename, file_extension = os.path.splitext(request.FILES['upload'].name)
+                # if file_extension not in allowed:
+                #     check_error = 1
+
+                translation = translate_text(textarea1, 'ru')
+
+                form = DocumentForm()
+                # url = 'https://www.facebook.com/favicon.ico'
+                # r = requests.get(url, allow_redirects=True)
+                #
+                # open('facebook.ico', 'wb').write(r.content)
+
+                # with urllib.request.urlopen('http://http://127.0.0.1:8000/main_app/') as f:
+                #     html = f.read().decode('utf-8')
+
+                # content = open(os.path.dirname(os.path.abspath(__file__))+"/../latextranslator-master/examples/" + filename + "_ru" + file_extension, encoding="utf8").read()
+                # content = open(default_storage.url(filename + file_extension),
+                #                encoding="utf8").read()
+
+                # return HttpResponse(str(filename))
+                # return HttpResponse(str(default_storage.url('/documents/' + filename + file_extension)))
+
+                # content = default_storage.open('documents/' + filename + file_extension, 'r')
+                #
+                # response = HttpResponse(content, 'rb')
+                # response['Content-Type'] = 'text/plain'
+                # response['Content-Disposition'] = 'attachment;'
+                # return response
+
+                # content = default_storage.open('documents/' + filename + '_ru' + file_extension, 'r')
+
+                # response = HttpResponse(content, 'rb')
+                # response['Content-Type'] = 'text/plain'
+                # response['Content-Disposition'] = 'attachment;'
+                # return response
+
+                # return HttpResponse(content, content_type='text/plain')
+
+                # print(r"C:\Users\DariaKhudiakova\PycharmProjects\textranslator\latextranslator-master\main.py C:\Users\DariaKhudiakova\PycharmProjects\textranslator\latextranslator-master\examples\test_Dasha.tex ru")
+                # response = os.system(
+                #     r"python C:\Users\DariaKhudiakova\PycharmProjects\textranslator\latextranslator-master\main.py C:\Users\DariaKhudiakova\PycharmProjects\textranslator\latextranslator-master\examples\test_Dasha.tex ru")
+
+                # print(response)
+                # response = json.dumps(value)
+
+                # return redirect('home')
     else:
         form = DocumentForm()
+        translation = ''
+
     return render(request, 'main_app/index.html', {
         'form': form,
+        'translation': translation
         # 'response': response
     })
 
@@ -254,3 +313,37 @@ def translate(url, filename, target_language):
 
     print('Output file:', output_filename)
     print(JSONmessages)
+
+
+def translate_text(textarea1, target_language):
+
+    # if (regex.search('.tex$', url) == None):
+    #     sys.exit('The input should be .tex file. Exit.')
+    # filebase = regex.sub('.tex$', '', filename)
+    # target_language = target_language
+    # print('LaTeX file:', url)
+    # print('Target language:', target_language)
+
+    # source = default_storage.open('documents/' + filename).read()
+    source = textarea1
+
+    ### Tokenize LaTeX source
+    tokenized_source, metadata = main_app.latex.tokenize(source)
+
+    ### Translate text
+    raw_translation = main_app.basic.translate(tokenized_source, target_language)
+
+    metadata = meta_translate(metadata, target_language)
+
+    ### Detokenize translation
+    translation, JSONmessages = main_app.latex.detokenize(raw_translation, metadata)
+
+    ### Save the result to .tex file
+    # output_filename = filebase + '_' + target_language + '.tex'
+    #
+    # default_storage.save('documents/' + filebase + '_' + target_language + '.tex', ContentFile(translation.encode('utf-8')))
+    #
+    # print('Output file:', output_filename)
+    # print(JSONmessages)
+
+    return translation
