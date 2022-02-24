@@ -1,207 +1,235 @@
-<!--{% load static %}-->
-
-<!--{% block content %}-->
-<!--  <form method="post" enctype="multipart/form-data">-->
-<!--    {% csrf_token %}-->
-<!--    <input type="file" name="myfile">-->
-<!--    <button type="submit">Upload</button>-->
-<!--  </form>-->
-
-<!--  {% if uploaded_file_url %}-->
-<!--    <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>-->
-<!--  {% endif %}-->
-
-<!--{% endblock %}-->
-
-<!--old-->
-
-<!--<head>-->
-<!--    <meta charset="utf-8">-->
-<!--    <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
-<!--    <title>-->
-<!--        {% block title %}-->
-<!--            Textranslator-->
-<!--        {% endblock %}-->
-<!--    </title>-->
-<!--    &lt;!&ndash; Tell the browser to be responsive to screen width &ndash;&gt;-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
-
-<!--    &lt;!&ndash; Google Font: Source Sans Pro &ndash;&gt;-->
-<!--    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">-->
-
-<!--</head>-->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Textranslator</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-<script src="https://kit.fontawesome.com/228eec93ed.js" crossorigin="anonymous"></script>
+    <title>LaTeX Translator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/228eec93ed.js" crossorigin="anonymous"></script>
 
-    <link rel="stylesheet"
-      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+    <style type="text/css" media="screen">
+    #editor1 {
+        height: 500px;
+    }
+    #editor2 {
+        height: 500px;
+    }
+
+    </style>
 </head>
 
-
-
-    <!--Bootstrap-->
-<!--    <link type="text/css" href="../../static/bootstrap-5.1.3-dist/css/bootstrap.min.css">-->
-<!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">-->
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/ace.js"
+        integrity="sha512-6ts6Fu561/yzWvD6uwQp3XVYwiWNpWnZ0hdeQrETqtnQiGjTfOS06W76aUDnq51hl1SxXtJaqy7IsZ3oP/uZEg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <body>
 
 <div style="padding-left:30px; padding-top:70px;">
 </div>
 
 <div style="background-color:#008080; height:330px; text-align: center;padding: 70px 10px;width: 100%;">
-  <h1 style="font-family: 'Source Sans Pro', sans-serif;font-size: 70px;color: #fff;">Textranslator [beta]</h1>
-  <h3 style="font-family: 'Source Sans Pro', sans-serif;font-size: 23px;color: #ffb380;">
-      Перевод LaTeX файлов с английского на русский.<br>
-      Загрузите файл или скопируйте его содержимое в окно ниже.<br><br>
-      По всем вопросам пишите на drgulevich[at]itmo.ru<br>
-      Вы можете поблагодарить разработчиков переводом на номер: [появится позже]<br>
-  </h3>
+    <h1 style="font-family: 'Source Sans Pro', sans-serif;font-size: 70px;color: #fff;">LaTeX Translator [beta]</h1>
+    <h3 style="font-family: 'Source Sans Pro', sans-serif;font-size: 23px;color: #ffb380;">
+        Перевод LaTeX документов.<br>
+        Загрузите файл или скопируйте его содержимое в окно ниже.<br><br>
+        По всем вопросам пишите на drgulevich[at]itmo.ru<br>
+        Вы можете поблагодарить разработчиков: [появится позже]<br>
+    </h3>
 </div>
 
 <div style="background-color:#E7E9EB;width: 100%;">
-  <div style="
+    <div style="
     display: flex;
     align-content: center;
     justify-content: center;
     overflow: auto; ">
-    <div style="display: block;">
-      <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
+        <div style="display: block;">
+            <form method="post" enctype="multipart/form-data" onsubmit="check_language();return false" id="file_form">
+                {% csrf_token %}
+                <div id="error" class="alert alert-warning" role="alert">
+                    {{ error_text }}
+                </div>
+                <div class="row row-cols-lg-auto g-3 align-items-center" style="padding: 70px 50px;">
+                    <div class="col-4">
+                        {{ form.file }}
+                    </div>
+                    <div class="col-4">
+                        <select id="language_to" name="language_to" class="form-select">
+                                {% for key, value in languages.items %}
+                                    <option value="{{ key }}">{{ value }}</option>
+                                {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-secondary" name="submit1">Translate and download</button>
+                    </div>
+                </div>
 
-        <div class="row row-cols-lg-auto g-3 align-items-center" style="padding: 70px 50px;">
-          <div class="col-12">
-            {{ form.upload }}
-          </div>
-          <div class="col-12">
-            <button type="submit" class="btn btn-secondary" name="submit1">Translate and download</button>
-          </div>
+            </form>
         </div>
-
-      </form>
     </div>
-  </div>
 
-  <hr style="width: 80%; margin: auto;">
+    <hr style="width: 80%; margin: auto;">
 
-  <div style="
+    <div style="
     display: flex;
     align-content: center;
     justify-content: center;
     overflow: auto; ">
-    <div style="display: block; padding-top:30px; padding-bottom:30px; width:90%">
-      <form method="post">
-        {% csrf_token %}
-        <div class="container">
-          <div class="row" style="justify-content: center;display: grid; padding-bottom:10px;">
-            <div class="col-1" style="display: inline-block;">
-              <button type="submit" class="btn btn-secondary" name="submit2">Translate</button>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-6">
-<!--              <form>-->
-                <div class="form-group">
-                  <label for="Textarea1" style="display: block; text-align: center;">Your text</label>
-                  <textarea class="form-control" id="Textarea1" name="Textarea1" rows="15"></textarea>
-                </div>
-<!--              </form>-->
-            </div>
-            <!--          <div class="col-2">-->
+        <div style="display: block; padding-top:30px; padding-bottom:30px; width:90%">
+            <form id="translateForm" method="post">
+                {% csrf_token %}
+                <div class="container">
+                    <div class="row" style="padding-bottom:30px;">
+                        <div class="col-4"></div>
+                        <div class="col-4" style="display: inline-block;display: flex;justify-content: center;">
+                            <button type="submit" class="btn btn-secondary" name="submit2">Translate</button>
+                        </div>
+                        <div class="col-2">
+                            <select id="text_language_to" name="text_language_to" class="form-select">
+                                {% for key, value in languages.items %}
+                                    <option value="{{ key }}">{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="textarea1" style="display: block; text-align: center;"></label>
+                                <div id="editor1">
+                                    <textarea class="form-control" id="textarea1" name="textarea1" rows="15"></textarea>
+                                </div>
+                            </div>
+                        </div>
 
-            <!--          </div>-->
-            <div class="col-6">
-<!--              <form>-->
-                <div class="form-group">
-                  <label for="Textarea2" style="display: block; text-align: center;">Translation</label>
-                    <pre>
-                        <code class="language-html">
-                            <textarea class="form-control" id="Textarea2" name="Textarea2" rows="15">{{ translation }}</textarea>
-                        </code>
-                    </pre>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="textarea2" style="display: block; text-align: center;"></label>
+                                <div id="editor2">
+                                    <textarea class="form-control" id="textarea2" name="textarea2" rows="15">{{ translation }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-<!--              </form>-->
-            </div>
-          </div>
+            </form>
         </div>
-      </form>
     </div>
-  </div>
 
 </div>
 
 <footer>
     <p style="font-family: 'Source Sans Pro', sans-serif;font-size: 15px;font-weight: bold; color: #5C636A; text-align: center;padding-top: 32px;">
-        Отказ от ответственности: проект находится в разработке, разработчики не несут ответственности за возможные сбои при работе сервиса.
+        Отказ от ответственности: проект находится в разработке, разработчики не несут ответственности за возможные сбои
+        при работе сервиса.
     </p>
     <p style="font-family: 'Source Sans Pro', sans-serif;font-size: 15px;font-weight: bold; color: #5C636A; text-align: center; padding-bottom:32px;">
-      2022, D. Gulevich, V. Kozin, D. Khudiakova
+        2022, D. Khudiakova, V. Kozin, D. Gulevich
     </p>
 </footer>
 
 <script>
-document.getElementById("id_upload").classList.add('form-control');
+    var editor1 = ace.edit("editor1");
+    editor1.setTheme("ace/theme/gruvbox");
+    editor1.session.setMode("ace/mode/tex");
+
+    var editor2 = ace.edit("editor2");
+    editor2.setTheme("ace/theme/gruvbox");
+    editor2.session.setMode("ace/mode/tex");
+
+function check_language() {
+console.log('ggg')
+   if ($('#language_to').val() == '') {
+        alert('Select language')
+   } else {
+        $('#error').hide()
+        form=$('#file_form')
+        form.submit()
+   }
+}
+
+</script>
+
+
+<script>
+$(document).ready(function () {
+
+    if ($.trim($('#error').text()) == "") {
+        $('#error').hide()
+    } else {
+        $('#error').show()
+    }
+
+
+      file = $('#id_file')
+      file.addClass("form-control");
+
+      var session1 = editor1.getSession();
+      var session2 = editor2.getSession();
+
+      session1.on('changeScrollTop', function(scroll) {
+        session2.setScrollTop(parseInt(scroll) || 0)
+      }
+      );
+        session1.on('changeScrollLeft',
+  function(scroll) {
+    session2.setScrollLeft(parseInt(scroll) || 0)
+  }
+);
+session2.on('changeScrollTop',
+  function(scroll) {
+    session1.setScrollTop(parseInt(scroll) || 0)
+  }
+);
+session2.on('changeScrollLeft',
+  function(scroll) {
+    session1.setScrollLeft(parseInt(scroll) || 0)
+  }
+);
+
+
+
+
+          // отслеживаем событие отправки формы
+          $('#translateForm').submit(function (e) {
+          e.preventDefault();
+
+          if ($('#text_language_to').val() == '') {
+        alert('Select language')
+        return false;
+   } else {
+        $('#error').hide()
+   }
+
+          const csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value;
+          var textarea1 = editor1.getValue()
+
+              $.ajax({
+              headers: {'X-CSRFToken': csrf_token},
+                  type: 'POST', // GET или POST
+                  url: "{% url 'post_translate' %}",
+                  data: {
+                      language: encodeURIComponent($('#text_language_to').val()),
+                      textarea1: encodeURIComponent(textarea1),
+                  },
+                  success: function (response) {
+                      editor2.setValue(response.translation)
+                  },
+                  error: function (response) {
+                        editor2.setValue("");
+                      alert('Something went wrong');
+                  }
+              });
+              return false;
+          });
+      })
+
 </script>
 
 </body>
 </html>
-
-<!--<form method="post" enctype="multipart/form-data">-->
-<!--  {% csrf_token %}-->
-<!--  {{ form.as_p }}-->
-<!--  <button type="submit">Submit</button>-->
-<!--</form>-->
-
-<!--<table>-->
-<!--  <thead>-->
-<!--    <tr>-->
-<!--      <th>Name</th>-->
-<!--      <th>Uploaded at</th>-->
-<!--      <th>Size</th>-->
-<!--    </tr>-->
-<!--  </thead>-->
-<!--  <tbody>-->
-<!--    {% for document in documents %}-->
-<!--      <tr>-->
-<!--        <td><a href="{{ document.upload.url }}" target="_blank">{{ document.upload.name }}</a></td>-->
-<!--        <td>{{ document.uploaded_at }}</td>-->
-<!--        <td>{{ document.upload.size|filesizeformat }}</td>-->
-<!--      </tr>-->
-<!--    {% empty %}-->
-<!--      <tr>-->
-<!--        <td colspan="3">No data.</td>-->
-<!--      </tr>-->
-<!--    {% endfor %}-->
-<!--  </tbody>-->
-<!--</table>-->
-
-<!--<input type="file" id="file_input"/>-->
-<!--<p id="status">Please select a file</p>-->
-
-<!--<form method="POST" action="/submit_form/">-->
-<!--  <input type="hidden" id="avatar-url" name="avatar-url" value="/static/default.png">-->
-<!--  <input type="text" name="username" placeholder="Username">-->
-<!--  <input type="text" name="full-name" placeholder="Full name">-->
-<!--  <input type="submit" value="Update profile">-->
-<!--</form>-->
-
-<!--<script type="text/javascript">-->
-<!--(function() {-->
-<!--  document.getElementById("file_input").onchange = function(){-->
-<!--    var files = document.getElementById("file_input").files;-->
-<!--    var file = files[0];-->
-<!--    if(!file){-->
-<!--      return alert("No file selected.");-->
-<!--    }-->
-<!--    getSignedRequest(file);-->
-<!--  };-->
-<!--})();-->
-<!--</script>-->
