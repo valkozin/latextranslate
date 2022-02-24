@@ -206,7 +206,7 @@ def model_form_upload(request):
         translation = ''
 
     languages = {'': 'Select language'}
-    languages['am'] = 'Amharic'
+    # languages['am'] = 'Amharic'
     languages['ar'] = 'Arabic'
     # languages['eu'] = 'Basque'
     # languages['bn'] = 'Bengali'
