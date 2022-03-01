@@ -34,20 +34,25 @@ def ret(json_object, status=200):
 def error_response(exception):
     res = {"errorMessage": str(exception),
            "traceback": traceback.format_exc()}
-    if settings.DEBUG:
+    if not settings.DEBUG:
         # return ret(res, status=400)
-        logger.exception('test')
+        logger.exception(str(exception))
         return HttpResponse('Something went wrong. We are working on it. Please try again later.<br> '
                             '<a href="/">homepage</a>')
+    else:
+        logger.exception(str(exception))
 
 
 def base_view(fn):
-    @functools.wraps(fn)
-    def inner(request, *args, **kwargs):
-        try:
-            with transaction.atomic():
-                return fn(request, *args, **kwargs)
-        except Exception as e:
-            return error_response(e)
+    if not settings.DEBUG:
+        @functools.wraps(fn)
+        def inner(request, *args, **kwargs):
+            try:
+                with transaction.atomic():
+                    return fn(request, *args, **kwargs)
+            except Exception as e:
+                return error_response(e)
 
-    return inner
+        return inner
+    else:
+        return fn

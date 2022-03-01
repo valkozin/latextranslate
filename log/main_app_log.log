@@ -22,3 +22,14 @@ Traceback (most recent call last):
   File "C:\PythonProjects\tex\main_app\latex.py", line 133, in detokenize
     messages['Error']['Corrupted'].append('[%d.%d]'%(t,nl))
 NameError: name 't' is not defined
+ERROR 2022-03-01 22:09:06,618 C:\PythonProjects\tex\core\views.py views 18788 10656 name 't' is not defined
+Traceback (most recent call last):
+  File "C:\PythonProjects\tex\core\views.py", line 49, in inner
+    return fn(request, *args, **kwargs)
+  File "C:\PythonProjects\tex\main_app\views.py", line 103, in model_form_upload
+    translate(default_storage.url(str(doc.file)), str(doc.file), language_to)
+  File "C:\PythonProjects\tex\main_app\views.py", line 271, in translate
+    translation, JSONmessages = main_app.latex.detokenize(raw_translation, metadata)
+  File "C:\PythonProjects\tex\main_app\latex.py", line 133, in detokenize
+    messages['Error']['Corrupted'].append('[%d.%d]'%(t,nl))
+NameError: name 't' is not defined

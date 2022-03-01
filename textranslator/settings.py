@@ -30,7 +30,11 @@ PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'django-insecure-&r05&^(&vi$v_4cqkhc9iyd-k^ur(_u!7#d)7h^qhr76rd4bdj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+if os.environ.get('ON_HEROKU', '0') == '0':
+    DEBUG = True
+else:
+    DEBUG = False
 
 # ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'textranslator.herokuapp.com']
 
@@ -154,6 +158,10 @@ AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = str(os.environ.get('S3_BUCKET_NAME'))
 
+AWS_ACCESS_KEY_ID = 'AKIAYKYKQ4GPGVPUTK6W'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'textranslate'
+
 # AWS_S3_REGION_NAME = 'eu-west-2'
 
 AWS_QUERYSTRING_AUTH = False
@@ -202,7 +210,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'myformatter': {
-            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'format': '{levelname} {asctime} {pathname} {module} {process:d} {thread:d} {message}',
             'style': '{',
         },
     },
@@ -217,6 +225,7 @@ LOGGING = {
             'level': 'WARNING',
             'class': 'django.utils.log.AdminEmailHandler',
             'include_html': True,
+            'formatter': 'myformatter'
         }
     },
     'loggers': {
@@ -236,4 +245,4 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'latexerrors@gmail.com'
-EMAIL_HOST_PASSWORD = 'xtjiwqehmzcjkawv'
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
