@@ -118,8 +118,8 @@ def detokenize(trtext, metadata):
     newtext=''
     nl=0
     messages = { 
-        'Warning': { 'Repeated': [] }, 
-        'Error': { 'Corrupted': [] } 
+        'Warning': {'Repeated': []},
+        'Error': {'Corrupted': []}
     }
     for m in regex.finditer(' ?<span class="notranslate">\[[0-9]++\]</span> ?',trtext):
         n=int( regex.search('[0-9]++',m.group()).group() )

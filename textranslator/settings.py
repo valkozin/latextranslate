@@ -9,9 +9,11 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+import logging
 import os
 from pathlib import Path
 import django_heroku
+from django.core.files.storage import default_storage
 
 import boto
 from boto.s3.connection import OrdinaryCallingFormat, Location
@@ -44,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main_app.apps.MainAppConfig',
     'storages',
+    'core',
 ]
 
 MIDDLEWARE = [
@@ -192,3 +195,45 @@ CODEMIRROR_PATH = os.path.join(PROJECT_PATH, '/codemirror-5.65.1')
 # else:
 #     STATIC_URL = '/staticfiles/'
 #     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'myformatter': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'WARNING',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'log/main_app_log.log'),
+            'formatter': 'myformatter'
+        },
+        'mail_admins': {
+            'level': 'WARNING',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True,
+        }
+    },
+    'loggers': {
+        'main_app': {
+            'handlers': ['file', 'mail_admins'],
+            'level': 'WARNING',
+            'propagate': True,
+        },
+    }
+}
+
+ADMINS = [
+    ('Admin', 'latexerrors@gmail.com'),
+]
+
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'latexerrors@gmail.com'
+EMAIL_HOST_PASSWORD = 'xtjiwqehmzcjkawv'

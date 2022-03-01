@@ -32,8 +32,8 @@ def translate( original_text, target, CHARLIMIT=5000 ):
         if(m.end()-start<CHARLIMIT):
             end=m.end()
         else:
-            chunk_result = translate_chunk( original_text[start:end], target )
-            translated_chunks.append( chunk_result["translatedText"] )
+            chunk_result = translate_chunk(original_text[start:end], target)
+            translated_chunks.append(chunk_result["translatedText"])
             start=end
             end=m.end()
     chunk_result = translate_chunk( original_text[start:], target )

@@ -35,9 +35,8 @@
     <h1 style="font-family: 'Source Sans Pro', sans-serif;font-size: 70px;color: #fff;">LaTeX Translator [beta]</h1>
     <h3 style="font-family: 'Source Sans Pro', sans-serif;font-size: 23px;color: #ffb380;">
         Перевод LaTeX документов.<br>
-        Загрузите файл или скопируйте его содержимое в окно ниже.<br><br>
-        По всем вопросам пишите на drgulevich[at]itmo.ru<br>
-        Вы можете поблагодарить разработчиков: [появится позже]<br>
+        Загрузите файл или скопируйте его содержимое в окно ниже.<br>
+        Язык оригинала определяется автоматически.<br><br>
     </h3>
 </div>
 
@@ -125,11 +124,13 @@
 
 <footer>
     <p style="font-family: 'Source Sans Pro', sans-serif;font-size: 15px;font-weight: bold; color: #5C636A; text-align: center;padding-top: 32px;">
+        По всем вопросам пишите на drgulevich[at]itmo.ru<br>
+        Вы можете поблагодарить разработчиков: [появится позже]<br>
         Отказ от ответственности: проект находится в разработке, разработчики не несут ответственности за возможные сбои
         при работе сервиса.
     </p>
     <p style="font-family: 'Source Sans Pro', sans-serif;font-size: 15px;font-weight: bold; color: #5C636A; text-align: center; padding-bottom:32px;">
-        2022, D. Khudiakova, V. Kozin, D. Gulevich
+        2022, D. Khudiakova, V.K. Kozin, D.R. Gulevich
     </p>
 </footer>
 
@@ -222,7 +223,7 @@ session2.on('changeScrollLeft',
                   },
                   error: function (response) {
                         editor2.setValue("");
-                      alert('Something went wrong');
+                      alert('Something went wrong. We are working on it. Please try again later.');
                   }
               });
               return false;

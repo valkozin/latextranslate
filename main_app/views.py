@@ -11,6 +11,9 @@ from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 from django.core.files.storage import default_storage
 
+from django.http import HttpResponse
+from django.http import JsonResponse
+
 # trans
 import argparse
 import os
@@ -19,14 +22,16 @@ import regex
 import sys
 import pickle
 
-from django.http import HttpResponse
-
 import main_app.basic  # Interface to basic Google translation API
 import main_app.latex  # LaTeX tokenizer
 
-from django.http import JsonResponse
-
 import urllib.parse
+
+from core.views import base_view
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 class DocumentCreateView(CreateView):
@@ -45,46 +50,16 @@ def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
+@base_view
 def post_model_form_upload(request):
-
     if is_ajax(request=request) and request.method == 'POST':
         if 'textarea1' in request.POST:
 
-            # response_json = request.POST
-            # response_json = json.dumps(response_json)
-            # data = json.loads(response_json)
-
-            # from django.http import HttpResponse
-            # return HttpResponse(urllib.parse.unquote(request.POST.get('language')))
-
             language = urllib.parse.unquote(request.POST.get('language'))
-
-            # from django.http import HttpResponse
-            # return HttpResponse(urllib.parse.unquote(request.POST.get('textarea1')))
-
-            # textarea1_json = json.loads(request.POST.get('textarea1'))
-            # textarea1_for_translate = json.dumps(textarea1_json)
 
             textarea1_for_translate = urllib.parse.unquote(request.POST.get('textarea1'))
 
-
-            # if request.POST.get('textarea1'):
-
-            # response_json = request.POST
-            # response_json = json.dumps(response_json)
-            # data = json.loads(response_json)
-            # from django.http import HttpResponse
-            # return HttpResponse(data)
-            # textarea1 = request.POST.get('textarea1')
-            #
-            # textarea1_for_translate = json.loads(textarea1)
-
-
             translation = translate_text(textarea1_for_translate, str(language))
-
-            # ser_translation = serializers.serialize('json', [translation, ])
-            # from django.http import HttpResponse
-            # return HttpResponse(translation)
 
             return JsonResponse({"translation": translation}, status=200)
 
@@ -92,6 +67,7 @@ def post_model_form_upload(request):
         return JsonResponse({"error": 'error'}, status=400)
 
 
+@base_view
 def model_form_upload(request):
     error_text = ''
     if request.method == 'POST':
@@ -138,66 +114,6 @@ def model_form_upload(request):
                     response['Content-Disposition'] = 'attachment; filename="'+request.FILES['file'].name + '_' + language_to + file_extension+'"'
                     return response
 
-        # elif 'submit2' in request.POST:
-        #     if request.POST.get('Textarea1'):
-        #
-        #         textarea1 = request.POST.get('Textarea1')
-        #         # from django.http import HttpResponse
-        #         # return HttpResponse(request.POST)
-        #         # form.save()
-        #
-        #         check_error = 0
-        #
-        #         # allowed = []
-        #         # allowed.append('tex')
-        #
-        #         # filename, file_extension = os.path.splitext(request.FILES['document'].name)
-        #         # filename, file_extension = os.path.splitext(request.FILES['upload'].name)
-        #         # if file_extension not in allowed:
-        #         #     check_error = 1
-        #
-        #         translation = translate_text(textarea1, 'ru')
-        #
-        #         form = DocumentForm()
-        #         # url = 'https://www.facebook.com/favicon.ico'
-        #         # r = requests.get(url, allow_redirects=True)
-        #         #
-        #         # open('facebook.ico', 'wb').write(r.content)
-        #
-        #         # with urllib.request.urlopen('http://http://127.0.0.1:8000/main_app/') as f:
-        #         #     html = f.read().decode('utf-8')
-        #
-        #         # content = open(os.path.dirname(os.path.abspath(__file__))+"/../latextranslator-master/examples/" + filename + "_ru" + file_extension, encoding="utf8").read()
-        #         # content = open(default_storage.url(filename + file_extension),
-        #         #                encoding="utf8").read()
-        #
-        #         # return HttpResponse(str(filename))
-        #         # return HttpResponse(str(default_storage.url('/documents/' + filename + file_extension)))
-        #
-        #         # content = default_storage.open('documents/' + filename + file_extension, 'r')
-        #         #
-        #         # response = HttpResponse(content, 'rb')
-        #         # response['Content-Type'] = 'text/plain'
-        #         # response['Content-Disposition'] = 'attachment;'
-        #         # return response
-        #
-        #         # content = default_storage.open('documents/' + filename + '_ru' + file_extension, 'r')
-        #
-        #         # response = HttpResponse(content, 'rb')
-        #         # response['Content-Type'] = 'text/plain'
-        #         # response['Content-Disposition'] = 'attachment;'
-        #         # return response
-        #
-        #         # return HttpResponse(content, content_type='text/plain')
-        #
-        #         # print(r"C:\Users\DariaKhudiakova\PycharmProjects\textranslator\latextranslator-master\main.py C:\Users\DariaKhudiakova\PycharmProjects\textranslator\latextranslator-master\examples\test_Dasha.tex ru")
-        #         # response = os.system(
-        #         #     r"python C:\Users\DariaKhudiakova\PycharmProjects\textranslator\latextranslator-master\main.py C:\Users\DariaKhudiakova\PycharmProjects\textranslator\latextranslator-master\examples\test_Dasha.tex ru")
-        #
-        #         # print(response)
-        #         # response = json.dumps(value)
-        #
-        #         # return redirect('home')
         else:
             form = DocumentForm()
             translation = ''
@@ -206,7 +122,7 @@ def model_form_upload(request):
         translation = ''
 
     languages = {'': 'Select language'}
-    # languages['am'] = 'Amharic'
+    languages['am'] = 'Amharic'
     languages['ar'] = 'Arabic'
     # languages['eu'] = 'Basque'
     # languages['bn'] = 'Bengali'
@@ -267,7 +183,7 @@ def model_form_upload(request):
         'form': form,
         'translation': translation,
         'languages': languages,
-        'error_text': error_text
+        'error_text': error_text,
         # 'response': response
     })
 
@@ -321,7 +237,6 @@ def translate(url, filename, target_language):
     # parser.add_argument('filename')
     # parser.add_argument('target_language')  # ISO 639-1 language code
     # args = parser.parse_args()
-
 
     if (regex.search('.tex$', url) == None):
         sys.exit('The input should be .tex file. Exit.')

@@ -1,8 +1,9 @@
+```Procfile:```
 web: gunicorn textranslator.wsgi - for Heroku
 
 web: python manage.py runserver 0.0.0.0:\$PORT - for local
 web: python manage.py runserver 0.0.0.0:5000
-
+``````
 
 print:
 from django.http import HttpResponse
