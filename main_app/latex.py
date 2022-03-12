@@ -130,7 +130,7 @@ def detokenize(trtext, metadata):
             messages['Warning']['Repeated'].append(metadata["latex"][n])
             newtext += trtext[here:m.start()] + metadata["latex"][n]
         else:
-            messages['Error']['Corrupted'].append('[%d.%d]'%(t,nl))
+            messages['Error']['Corrupted'].append('[%d]'%nl)
             nl+=1
         here=m.end()
     newtext += trtext[here:]
