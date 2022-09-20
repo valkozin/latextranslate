@@ -123,15 +123,19 @@ def detokenize(trtext, metadata):
     }
     for m in regex.finditer(' ?<span class="notranslate">\[[0-9]++\]</span> ?',trtext):
         n=int( regex.search('[0-9]++',m.group()).group() )
-        if(n==nl):
-            newtext += trtext[here:m.start()] + metadata["notranslate"][n]
-            nl+=1
-        elif(n==nl-1):
-            messages['Warning']['Repeated'].append(metadata["latex"][n])
-            newtext += trtext[here:m.start()] + metadata["latex"][n]
-        else:
-            messages['Error']['Corrupted'].append('[%d.%d]'%(t,nl))
-            nl+=1
+        
+### Fix for the bug arising when n!=nl (order of tokens interchanged during translation):        
+        newtext += trtext[here:m.start()] + metadata["notranslate"][n]
+#        if(n==nl):
+#            newtext += trtext[here:m.start()] + metadata["notranslate"][n]
+#            nl+=1
+#        elif(n==nl-1):
+#            messages['Warning']['Repeated'].append(metadata["latex"][n])
+#            newtext += trtext[here:m.start()] + metadata["latex"][n]
+#        else:
+#            messages['Error']['Corrupted'].append('[%d]'%nl)
+#            nl+=1
+
         here=m.end()
     newtext += trtext[here:]
     trtext=newtext

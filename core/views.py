@@ -44,7 +44,7 @@ def error_response(exception):
 
 
 def base_view(fn):
-    if not settings.DEBUG:
+    if settings.DEBUG:
         @functools.wraps(fn)
         def inner(request, *args, **kwargs):
             try:
