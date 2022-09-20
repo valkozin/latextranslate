@@ -27,13 +27,15 @@ def translate_chunk( text, target ):
 # 5000 characters recommended request length, see https://cloud.google.com/translate/quotas
 def translate( original_text, target, CHARLIMIT=5000 ):
     start=0
+    end=0
     translated_chunks=[]
     for m in regex.finditer(r'\.<br>',original_text):
         if(m.end()-start<CHARLIMIT):
             end=m.end()
         else:
-            chunk_result = translate_chunk(original_text[start:end], target)
-            translated_chunks.append(chunk_result["translatedText"])
+            if(end>start):
+                chunk_result = translate_chunk(original_text[start:end], target)
+                translated_chunks.append(chunk_result["translatedText"])
             start=end
             end=m.end()
     chunk_result = translate_chunk( original_text[start:], target )
