@@ -10,7 +10,7 @@ from django.http import HttpResponse
 return HttpResponse(str(var))
 
 push to Heroku:
-git push https://git.heroku.com/textranslator.git HEAD:master
+git push https://git.heroku.com/latextranslator.git HEAD:master
 
 migrate on Heroku:
 Heroku->app->more->Run console
